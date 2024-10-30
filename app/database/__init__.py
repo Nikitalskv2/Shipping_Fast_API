@@ -1,6 +1,3 @@
-from app.database.database import DB_halper, db_helper
-from app.database.models import Base, PackageModel, TypeModel, UserModel
-
 __all__ = (
     "Base",
     "UserModel",
@@ -9,3 +6,5 @@ __all__ = (
     "DB_halper",
     "db_helper",
 )
+from app.database.database import DB_halper, db_helper  # noqa: E402
+from app.database.models import Base, PackageModel, TypeModel, UserModel    # noqa: E402

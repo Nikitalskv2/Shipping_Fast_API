@@ -24,21 +24,11 @@ class Settings(BaseSettings):
 
     @property
     def DATABASE_URL_asyncpg(self):
-        return f"""postgresql+asyncpg://
-{self.DB_USER}:
-{self.DB_PASS}@
-{self.DB_HOST}:
-{self.DB_PORT}/
-{self.DB_NAME}"""
+        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"   # noqa: 501
 
     @property
     def TEST_DATABASE_asyncpg(self):
-        return f"""postgresql+asyncpg://
-{self.DB_USER_TEST}:
-{self.DB_PASS_TEST}@
-{self.DB_HOST_TEST}:
-{self.DB_PORT_TEST}/
-{self.DB_NAME_TEST}"""
+        return f"postgresql+asyncpg://{self.DB_USER_TEST}:{self.DB_PASS_TEST}@{self.DB_HOST_TEST}:{self.DB_PORT_TEST}/{self.DB_NAME_TEST}"   # noqa: 501
 
     model_config = SettingsConfigDict(env_file=".env")
 

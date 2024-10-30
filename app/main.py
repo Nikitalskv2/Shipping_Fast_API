@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from app.database import Base
-from app.database.database import db_helper
+from app.database import db_helper
 from app.database.setup_data import setup_execute
 from app.routers.routers import router
 

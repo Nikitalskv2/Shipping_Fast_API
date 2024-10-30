@@ -22,9 +22,9 @@ coloredlogs.install(
 
 @router.get("/", tags=["session"])
 async def get_session(
-    response: Response,
-    request: Request,
-    session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
+        response: Response,
+        request: Request,
+        session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
 ):
     session_id = request.cookies.get("session_id")
 
@@ -37,8 +37,14 @@ async def get_session(
     return session_id
 
 
+# def send_to_broker(package: CreatePackage):
+#     produce_message(package=package)
+
+
 @router.post("/", tags=["orders"])
-async def create_order(request: Request, order_in: PackageBase):
+async def create_order(request: Request,
+                       order_in: PackageBase
+                       ):
     session_id = request.cookies.get("session_id")
     if not session_id:
         raise HTTPException(
@@ -51,9 +57,10 @@ async def create_order(request: Request, order_in: PackageBase):
         **order_in.model_dump(),
         user_id=session_id,
         cost_shipping=0,
-        unic_id=str(unic_id),
+        unic_id=str(unic_id)
     )
 
+    # send_message(package=package)
     produce_message(package=package)
 
     logger.info("sending data to the broker: %s", unic_id)
@@ -62,19 +69,19 @@ async def create_order(request: Request, order_in: PackageBase):
 
 @router.get("/types/", response_model=list[TypeOrder])
 async def get_type(
-    session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
+        session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
 ):
     return await crud.get_type(session=session)
 
 
 @router.post("/orders/{pagination}", tags=["orders"], response_model=list[GetPackage])
 async def get_all_order(
-    request: Request,
-    type_package: int,
-    cost_bool: bool,
-    pages: int,
-    page_size: int,
-    session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
+        request: Request,
+        type_package: int,
+        cost_bool: bool,
+        pages: int,
+        page_size: int,
+        session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
 ):
     session_id = request.cookies.get("session_id")
     if session_id:
@@ -92,7 +99,7 @@ async def get_all_order(
         session=session, filter_types=type_package, cost_bool=cost_bool, user_id=user.id
     )
     if result:
-        return list(result)[((pages - 1) * page_size) : (pages * page_size)]
+        return list(result)[((pages - 1) * page_size): (pages * page_size)]
     else:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="user does not have packages"
@@ -101,8 +108,8 @@ async def get_all_order(
 
 @router.get("/orders/{order_id}/", tags=["orders"], response_model=GetPackage)
 async def get_order_id(
-    order_id: str,
-    session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
+        order_id: str,
+        session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
 ) -> GetPackage | None:
     package_r = await RedisTools.get_value(order_id)
     if package_r:
