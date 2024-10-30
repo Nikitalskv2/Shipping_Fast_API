@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.idea/
 *.py[cod]
 *$py.class
 
@@ -22,6 +23,8 @@ var/
 wheels/
 share/python-wheels/
 *.egg-info/
+tests/
+requirements-dev.txt/
 .installed.cfg
 *.egg
 MANIFEST
