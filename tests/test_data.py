@@ -1,3 +1,5 @@
+from app.schemas.schemas import GetPackage
+
 create_order_data = [
     (
         {
@@ -44,4 +46,28 @@ create_order_data = [
         },
         True
     )
+]
+
+mock_get_orders = [
+    GetPackage(
+        package_name="PC",
+        unic_id="unic_id_1",
+        weight=10,
+        cost_content=1000,
+        cost_shipping=1500,
+        type_name="electronics",
+        created_at="2024-10-31 13:45:23.123456+00:00",
+        updated_at=None
+    ),
+    GetPackage(
+        package_name="Dress",
+        unic_id="unic_id_2",
+        weight=1,
+        cost_content=300,
+        cost_shipping=320,
+        type_name="1",
+        created_at="2024-10-31 13:45:23.123456+00:00",
+        updated_at=None
+    )
+
 ]

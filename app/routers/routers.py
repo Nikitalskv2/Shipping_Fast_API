@@ -81,7 +81,7 @@ async def get_all_order(
         cost_bool: bool,
         pages: int,
         page_size: int,
-        session: AsyncSession = Depends(db_helper.session_dependency),  # noqa: B008
+        session: AsyncSession = Depends(db_helper.session_dependency)  # noqa: B008
 ):
     session_id = request.cookies.get("session_id")
     if session_id:
@@ -102,7 +102,7 @@ async def get_all_order(
         return list(result)[((pages - 1) * page_size): (pages * page_size)]
     else:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="user does not have packages"
+            status_code=status.HTTP_204_NO_CONTENT, detail="user does not have packages"
         )
 
 

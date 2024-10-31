@@ -7,7 +7,6 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 from sqlalchemy.pool import NullPool
 
 from app.database.models import Base
-from app.database.database import db_helper
 from app.database.setup_data import setup_execute
 from app.main import app
 from config import settings
@@ -16,12 +15,13 @@ engine_test = create_async_engine(settings.TEST_DATABASE_asyncpg, poolclass=Null
 async_session_maker = async_sessionmaker(engine_test, class_=AsyncSession, expire_on_commit=False)    # noqa: 501
 
 
+@pytest.fixture(autouse=True, scope='function')
 async def override_get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
 
 
-app.dependency_overrides[db_helper.session_dependency] = override_get_async_session
+# app.dependency_overrides[db_helper.session_dependency] = override_get_async_session
 
 
 @pytest.fixture(autouse=True, scope='session')
